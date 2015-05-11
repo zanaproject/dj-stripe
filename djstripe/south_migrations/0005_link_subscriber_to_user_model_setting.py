@@ -9,6 +9,14 @@ from south.v2 import SchemaMigration
 DJSTRIPE_UNSAFE_SUBSCRIBER_MODEL = getattr(settings, "DJSTRIPE_SUBSCRIBER_MODEL", settings.AUTH_USER_MODEL)
 
 
+try:
+    from django.contrib.auth import get_user_model
+except ImportError: # django < 1.5
+    from django.contrib.auth.models import User
+else:
+    User = get_user_model()
+
+
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
@@ -20,6 +28,9 @@ class Migration(SchemaMigration):
         db.alter_column(u'djstripe_customer', 'subscriber_id', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['users.User'], unique=True, null=True))
 
     models = {
+        "%s.%s" % (User._meta.app_label, User._meta.module_name): {
+            'Meta': {'object_name': User.__name__},
+        },
         u'auth.group': {
             'Meta': {'object_name': 'Group'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
