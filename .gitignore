@@ -24,6 +24,7 @@ logfile
 pip-log.txt
 
 # Unit test / coverage reports
+cover/*
 .coverage
 .tox
 nosetests.xml
@@ -35,6 +36,10 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+
+# Eclipse Project Files
+.settings/
+.prefs
 
 # Sphinx
 docs/_build
