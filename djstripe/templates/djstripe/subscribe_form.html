@@ -42,14 +42,16 @@
                 <input name="stripe_token" type="hidden" /> 
 
                 <!-- disable this when clicked -->
-                <button
+                <button style="width:100%; border-radius:4px;"
                   {% if customer.current_subscription.plan == plan.plan and customer.current_subscription.status != CurrentSubscription.STATUS_CANCELLED %}
                     disabled="true"
                   {% endif %}
-                 type="submit" class="btn btn-primary">
-                  {% with image=plan.image|default:"img/default-plan-image.png" %}
-                    <img src="{% static image %}" class="img-thumbnail" />
-                  {% endwith %}
+                  type="submit" class="btn btn-primary">
+                  {% comment %}
+                    {% with image=plan.image|default:"img/default-plan-image.png" %}
+                      <img src="{% static image %}" class="img-thumbnail" />
+                    {% endwith %}
+                  {% endcomment %}
                   <h3>{{ plan.name }}</h3>
                   <p>{{ plan.description }}</p>
                 </button>
@@ -66,7 +68,13 @@
             </form>
         </div>
     {% endfor %}
+    <div class="row">
+      <div class="col-xs-12">
+        <p style="margin-top:30px; padding-left:15px">Or, <a href="/lessons">click here if you just want to continue seeing free content for now</a>.</p>
+      </div>
+    </div>
 </div>
+
 
 {% endblock content %}
 
