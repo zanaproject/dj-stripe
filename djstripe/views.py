@@ -132,7 +132,7 @@ class SubscribeFormView(LoginRequiredMixin, FormValidMessageMixin, SubscriptionM
     form_class = PlanForm
     template_name = "djstripe/subscribe_form.html"
     success_url = reverse_lazy("djstripe:history")
-    form_valid_message = "You are now subscribed!"
+    form_valid_message = "Congratulations! You've successfully subscribed to Zana Edge. We'll be in touch shortly via email."
 
     def post(self, request, *args, **kwargs):
         """
@@ -163,7 +163,7 @@ class ChangePlanView(LoginRequiredMixin, FormValidMessageMixin, SubscriptionMixi
     form_class = PlanForm
     template_name = "djstripe/subscribe_form.html"
     success_url = reverse_lazy("djstripe:history")
-    form_valid_message = "You've just changed your plan!"
+    form_valid_message = "You've just changed your plan! We'll be in touch via email."
 
     def post(self, request, *args, **kwargs):
         form = PlanForm(request.POST)
