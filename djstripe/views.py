@@ -131,7 +131,7 @@ class SubscribeFormView(LoginRequiredMixin, FormValidMessageMixin, SubscriptionM
 
     form_class = PlanForm
     template_name = "djstripe/subscribe_form.html"
-    success_url = reverse_lazy("djstripe:history")
+    success_url = reverse_lazy("djstripe:account")
     form_valid_message = "Congratulations! You've successfully subscribed to Zana Edge. We'll be in touch shortly via email."
 
     def post(self, request, *args, **kwargs):
