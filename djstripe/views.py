@@ -127,7 +127,7 @@ class SyncHistoryView(CsrfExemptMixin, LoginRequiredMixin, View):
 
 
 class SubscribeFormView(LoginRequiredMixin, FormValidMessageMixin, SubscriptionMixin, FormView):
-    # TODO - needs tests
+    # TO DO - needs tests
 
     form_class = PlanForm
     template_name = "djstripe/subscribe_form.html"
@@ -146,7 +146,8 @@ class SubscribeFormView(LoginRequiredMixin, FormValidMessageMixin, SubscriptionM
                 customer, created = Customer.get_or_create(
                     subscriber=subscriber_request_callback(self.request))
                 customer.update_card(self.request.POST.get("stripe_token"))
-                customer.subscribe(form.cleaned_data["plan"])
+                coupon = self.request.POST.get("coupon")
+                customer.subscribe(form.cleaned_data["plan"], coupon=coupon)
             except stripe.StripeError as e:
                 # add form error here
                 self.error = e.args[0]

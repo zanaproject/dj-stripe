@@ -522,12 +522,12 @@ class Customer(StripeObject):
         )
 
     def subscribe(self, plan, quantity=1, trial_days=None,
-                  charge_immediately=True, prorate=djstripe_settings.PRORATION_POLICY):
-        cu = self.stripe_customer
+                  charge_immediately=True, prorate=djstripe_settings.PRORATION_POLICY, coupon=None):
         """
         Trial_days corresponds to the value specified by the selected plan
         for the key trial_period_days.
         """
+        cu = self.stripe_customer
         if ("trial_period_days" in djstripe_settings.PAYMENTS_PLANS[plan]):
             trial_days = djstripe_settings.PAYMENTS_PLANS[plan]["trial_period_days"]
 
@@ -536,13 +536,15 @@ class Customer(StripeObject):
                 plan=djstripe_settings.PAYMENTS_PLANS[plan]["stripe_plan_id"],
                 trial_end=timezone.now() + datetime.timedelta(days=trial_days),
                 prorate=prorate,
-                quantity=quantity
+                quantity=quantity,
+                coupon=coupon
             )
         else:
             resp = cu.update_subscription(
                 plan=djstripe_settings.PAYMENTS_PLANS[plan]["stripe_plan_id"],
                 prorate=prorate,
-                quantity=quantity
+                quantity=quantity,
+                coupon=coupon
             )
         self.sync_current_subscription()
         if charge_immediately:
